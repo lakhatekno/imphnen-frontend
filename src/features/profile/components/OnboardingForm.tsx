@@ -427,7 +427,7 @@ const TextareaField: React.FC<TextareaFieldProps> = ({ label, name, value, onCha
 			onChange={onChange}
 			required={required}
 			rows={4}
-			className="form-textarea border w-full border-slate-400 focus:outline-none focus:border-2 focus:border-accent"
+			className="form-textarea border w-full rounded-lg border-slate-400 focus:outline-none focus:border-2 focus:border-accent"
 		></textarea>
 	</div>
 );

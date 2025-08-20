@@ -24,7 +24,7 @@ export default function RootLayout({
 			<body className={`${inter.variable} antialiased`}>
 				<header className="sticky top-0 z-10 bg-white flex items-center justify-between w-screen min-h-20 shadow-sm shadow-gray-500 px-8 md:px-20 py-2">
 					<div className="flex gap-2 items-center">
-						<span className="font-sans font-bold text-accent text-2xl">KerjaMerdeka</span>
+						<Link href='/' className="font-sans font-bold text-accent text-2xl">KerjaMerdeka</Link>
 						<nav className="flex gap-2">
 							<Link
 								href={'/job-companion'}
@@ -43,13 +43,13 @@ export default function RootLayout({
 						</nav>
 					</div>
 					<div className="flex gap-2">
-						<button
+						<Link
+              href={'/profile'}
 							className="flex items-center gap-1 px-4 py-2 text-sm"
-							disabled
 						>
 							<User />
 							Profile
-						</button>
+						</Link>
 						<button
 							className="flex items-center gap-1 px-4 py-2 text-sm bg-[#EF4444] text-white rounded-lg"
 							disabled
