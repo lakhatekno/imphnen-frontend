@@ -8,12 +8,12 @@ interface PreviewStore {
   previewUrl: string | null;
   isLoading: boolean;
   error: string | null;
-  fetchPreview: (type: 'cv' | 'coverLetter', userData: any) => Promise<void>;
+  fetchPreview: (type: 'cv' | 'coverLetter', userData: {id: string}) => Promise<void>;
 }
 
 // --- MOCK API FUNCTION ---
 // Ganti ini dengan fetch call ke endpoint BE Anda yang sebenarnya.
-const mockApiFetchPdf = async (type: 'cv' | 'coverLetter', userData: any): Promise<Blob> => {
+const mockApiFetchPdf = async (type: 'cv' | 'coverLetter', userData: {id: string}): Promise<Blob> => {
   console.log(`API: Generating ${type} preview for`, userData);
   // Simulasikan network delay
   await new Promise(res => setTimeout(res, 1000));

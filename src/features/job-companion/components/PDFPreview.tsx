@@ -3,7 +3,7 @@ import { usePreviewStore } from '@/services/job-companion/email-preview/previewS
 
 import { Loader2, AlertTriangle } from 'lucide-react';
 
-const mockUserData = { id: 1, name: "Budi Santoso" }; 
+const mockUserData = { id: '1' }; 
 
 export function CVPreviewTab() {
   const { previewUrl, isLoading, error, fetchPreview, activeTab } = usePreviewStore();
@@ -19,7 +19,7 @@ export function CVPreviewTab() {
         URL.revokeObjectURL(previewUrl);
       }
     };
-  }, [activeTab, fetchPreview]); 
+  }, [activeTab, fetchPreview, previewUrl]); 
 
   return <PreviewPane url={previewUrl} isLoading={isLoading} error={error} />;
 }
@@ -36,7 +36,7 @@ export function CoverLetterPreviewTab() {
         URL.revokeObjectURL(previewUrl);
       }
     };
-  }, [activeTab, fetchPreview]);
+  }, [activeTab, fetchPreview, previewUrl]);
 
   return <PreviewPane url={previewUrl} isLoading={isLoading} error={error} />;
 }
