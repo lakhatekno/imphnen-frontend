@@ -1,48 +1,86 @@
+import { apiRequest } from '@/lib/api';
 import { create } from 'zustand';
 
-export type TabType = 'CV' | 'Cover Letter';
+export type TabType = 'CV' | 'Cover Letter' | 'Summary';
 
 interface PreviewStore {
-  activeTab: TabType;
-  setActiveTab: (tab: TabType) => void;
-  previewUrl: string | null;
-  isLoading: boolean;
-  error: string | null;
-  fetchPreview: (type: 'cv' | 'coverLetter', userData: {id: string}) => Promise<void>;
+	activeTab: TabType;
+	setActiveTab: (tab: TabType) => void;
+	previewUrl: string | null;
+	isLoading: boolean;
+	error: string | null;
+	jobId: string;
+	// State baru untuk melacak pratinjau yang sudah di-generate
+	generatedPreviews: Set<TabType>;
+	summaryText: string | null;
+	fetchPreview: (type: 'cv' | 'cover-letter' | 'summary', id: string) => Promise<void>;
+	setJobId: (id: string) => void;
+	sendJobpack: (id: string) => Promise<void>;
 }
 
-// --- MOCK API FUNCTION ---
-// Ganti ini dengan fetch call ke endpoint BE Anda yang sebenarnya.
-const mockApiFetchPdf = async (type: 'cv' | 'coverLetter', userData: {id: string}): Promise<Blob> => {
-  console.log(`API: Generating ${type} preview for`, userData);
-  // Simulasikan network delay
-  await new Promise(res => setTimeout(res, 1000));
-  
-  // Di aplikasi nyata, backend akan mengembalikan data PDF.
-  // Kita akan simulasikan ini dengan mengembalikan Blob kosong.
-  // Ini menghilangkan kebutuhan akan library eksternal di frontend untuk mocking.
-  const placeholderText = `Ini adalah placeholder untuk ${type.toUpperCase()}`;
-  return new Blob([placeholderText], { type: 'application/pdf' });
+// Helper untuk memetakan tipe API ke tipe Tab
+const mapApiTypeToTabType = (type: 'cv' | 'cover-letter' | 'summary'): TabType => {
+	if (type === 'cv') return 'CV';
+	if (type === 'cover-letter') return 'Cover Letter';
+	return 'Summary';
 };
 
+export const usePreviewStore = create<PreviewStore>((set, get) => ({
+	activeTab: 'CV',
+	previewUrl: null,
+	isLoading: false,
+	error: null,
+	jobId: '',
+	generatedPreviews: new Set(),
+	summaryText: '',
 
-export const usePreviewStore = create<PreviewStore>((set) => ({
-  activeTab: 'CV',
-  previewUrl: null,
-  isLoading: false,
-  error: null,
-  
-  setActiveTab: (tab) => set({ activeTab: tab, previewUrl: null, error: null }), // Reset URL saat ganti tab
+	setActiveTab: (tab) => set({ activeTab: tab, previewUrl: null, error: null }),
 
-  fetchPreview: async (type, userData) => {
-    set({ isLoading: true, error: null, previewUrl: null });
-    try {
-      const pdfBlob = await mockApiFetchPdf(type, userData);
-      const url = URL.createObjectURL(pdfBlob);
-      set({ previewUrl: url, isLoading: false });
-    } catch (err) {
-      console.error("Failed to fetch preview:", err);
-      set({ error: `Gagal memuat preview ${type}.`, isLoading: false });
-    }
-  },
+	setJobId: (id) => set({ jobId: id }),
+
+	fetchPreview: async (type, id) => {
+		set({ isLoading: true, error: null, previewUrl: null });
+		try {
+			// Menggunakan apiRequest untuk mengambil file sebagai Blob
+			const endpoint = `/doc/${id}?result=${type}`;
+
+			if (type === 'summary') {
+				// Ambil JSON untuk summary
+				const res = await apiRequest<{ success: boolean; data: { summary: string } }>(endpoint);
+				set((state) => ({
+					summaryText: res.data.summary,
+					isLoading: false,
+					generatedPreviews: new Set(state.generatedPreviews).add(mapApiTypeToTabType(type)),
+				}));
+			} else {
+				const pdfBlob = await apiRequest<Blob>(endpoint, 'GET', undefined, 'blob');
+
+				const url = URL.createObjectURL(pdfBlob);
+
+				// Menambahkan tab yang berhasil di-generate ke dalam Set
+				set((state) => ({
+					previewUrl: url,
+					isLoading: false,
+					generatedPreviews: new Set(state.generatedPreviews).add(mapApiTypeToTabType(type)),
+				}));
+			}
+		} catch (err) {
+			console.error('Failed to fetch preview:', err);
+			set({ error: `Gagal memuat pratinjau`, isLoading: false });
+		}
+	},
+
+	sendJobpack: async (id: string) => {
+		set({ isLoading: true });
+		try {
+			// Memanggil endpoint jobpack dengan ID yang sesuai
+			await apiRequest(`/jobpack/${id}`, 'GET');
+			alert('Jobpack berhasil dikirim!');
+		} catch (err) {
+			console.error('Error sending jobpack', err);
+			alert('Gagal mengirim jobpack.');
+		} finally {
+			set({ isLoading: false });
+		}
+	},
 }));
