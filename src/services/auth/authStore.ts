@@ -24,16 +24,20 @@ const apiLogin = async (credentials: loginBody) => {
   return response.json() as Promise<{ token: string; user: User }>;
 };
 
-export const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<
+  AuthState & { _hasHydrated: boolean; setHasHydrated: (v: boolean) => void }
+>()(
   persist(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      _hasHydrated: false,
+      setHasHydrated: (v) => set({ _hasHydrated: v }),
 
       login: async (credentials: loginBody) => {
         const { token, user } = await apiLogin(credentials);
 
-        Cookies.set("auth-token", token);
+        Cookies.set("auth-token", token, { expires: 7 });
         set({ user: user, isAuthenticated: true });
       },
 
@@ -62,6 +66,9 @@ export const useAuthStore = create<AuthState>()(
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );
