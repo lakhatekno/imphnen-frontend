@@ -1,21 +1,8 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { loginBody } from '@/types/auth.type';
+import { persist } from 'zustand/middleware';
+import Cookies from 'js-cookie';
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-}
-
-export interface AuthState {
-  token: string | null;
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (credentials: loginBody) => Promise<void>;
-  logout: () => void;
-}
+import { AuthState, loginBody, User } from '@/types/auth.type';
 
 // Fetcher for login
 const apiLogin = async (credentials: loginBody) => {
@@ -36,23 +23,29 @@ const apiLogin = async (credentials: loginBody) => {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      token: null,
       user: null,
       isAuthenticated: false,
 
       login: async (credentials: loginBody) => {
         const { token, user } = await apiLogin(credentials);
-        // Optionally: attach token globally in fetch headers here
-        set({ token, user, isAuthenticated: true });
+        
+        Cookies.set('auth-token', token, {
+          expires: 7,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+        });
+
+        set({ user, isAuthenticated: true });
       },
 
       logout: () => {
-        set({ token: null, user: null, isAuthenticated: false });
+        Cookies.remove('auth-token');
+        set({ user: null, isAuthenticated: false });
       },
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage),
+      skipHydration: true,
     }
   )
 );
