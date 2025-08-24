@@ -8,8 +8,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 export default function ChatInterview() {
-  const { messages, isLoading, initializeSession, sendMessage } =
-    useChatStore();
+  const {
+    messages,
+    isLoading,
+    initializeSession,
+    sendMessage,
+    restartInterview,
+  } = useChatStore();
   const [inputText, setInputText] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -45,12 +50,22 @@ export default function ChatInterview() {
             Berlatih wawancara dengan AI Interviewer
           </p>
         </div>
-        <Link
-          href={`/job-companion/${"id"}/email-preview`}
-          className="px-4 py-2 text-sm bg-[#0FDB00] font-medium rounded-lg hover:bg-green-500 cursor-pointer transition-colors"
-        >
-          Lewati
-        </Link>
+        <div className="flex gap-2">
+          <button
+            onClick={() => restartInterview(jobId)}
+            className="px-4 py-2 text-sm bg-yellow-400 font-medium rounded-lg hover:bg-yellow-500 cursor-pointer transition-colors"
+            disabled={isLoading}
+            type="button"
+          >
+            Mulai Ulang
+          </button>
+          <Link
+            href={`/job-companion/${jobId}/email-preview`}
+            className="px-4 py-2 text-sm bg-[#0FDB00] font-medium rounded-lg hover:bg-green-500 cursor-pointer transition-colors"
+          >
+            Lewati
+          </Link>
+        </div>
       </header>
 
       {/* Chat Area */}
