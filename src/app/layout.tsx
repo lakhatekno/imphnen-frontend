@@ -7,7 +7,7 @@ import Toast from "@/lib/components/toast";
 import { useToast } from "@/services/toast.store";
 import ToastWrapper from "@/features/layout/components/ToastWrapper.component";
 
-export const inter = Inter({
+const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
