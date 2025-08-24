@@ -1,10 +1,5 @@
 "use client";
 import { useProfileStore } from "@/services/profile/profileStore";
-import PersonalDataTab from "@/features/profile/components/tabs/PersonalDataTab.component";
-import WorkExperienceTab from "@/features/profile/components/tabs/WorkExperienceTab.component";
-import { EducationTab } from "@/features/profile/components/tabs/EducationTab.component";
-import SkillsTab from "@/features/profile/components/tabs/SkillsTab.component";
-import Toast from "@/lib/components/toast";
 import { useToast } from "@/services/toast.store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -46,21 +41,6 @@ export default function OnboardingForm(): React.ReactElement {
         title: "Gagal Menyimpan",
         message: "Terjadi kesalahan saat menyimpan data.",
       });
-    }
-  };
-
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case "Data Pribadi":
-        return <PersonalDataTab />;
-      case "Pengalaman Kerja":
-        return <WorkExperienceTab />;
-      case "Pendidikan":
-        return <EducationTab />;
-      case "Keahlian":
-        return <SkillsTab />;
-      default:
-        return <PersonalDataTab />;
     }
   };
 
