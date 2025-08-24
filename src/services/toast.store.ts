@@ -1,17 +1,11 @@
+import { Toast } from '@/types/toast.type';
 import { create } from 'zustand';
-import type { ToastProps } from '@/lib/components/toast';
-
-interface Toast extends ToastProps {
-  openToast: boolean;
-  setOpenToast: (props: ToastProps) => void;
-  closeToast: () => void;
-}
 
 export const useToast = create<Toast>((set) => ({
-  type: 'news',
-  title: '',
-  message: '',
-  openToast: false,
+  type: 'success',
+  title: 'Title',
+  message: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt sit dignissimos consectetur.',
+  openToast: true,
 
   setOpenToast: (props) =>
     set({
