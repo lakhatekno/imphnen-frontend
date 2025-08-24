@@ -92,12 +92,26 @@ export default function Header() {
           </ul>
 
           <div className="hidden md:flex space-x-3">
-            <a href="#" className="text-accent px-4 py-2">
-              Masuk
-            </a>
-            <a href="#" className="bg-accent text-white px-4 py-2 rounded-lg">
-              Daftar
-            </a>
+            {isAuthenticated ? (
+              <a
+                href="/job-companion"
+                className="bg-accent text-white px-4 py-2 rounded-lg"
+              >
+                Dasbor
+              </a>
+            ) : (
+              <>
+                <a href="/login" className="text-accent px-4 py-2">
+                  Masuk
+                </a>
+                <a
+                  href="/register"
+                  className="bg-accent text-white px-4 py-2 rounded-lg"
+                >
+                  Daftar
+                </a>
+              </>
+            )}
           </div>
         </nav>
 
@@ -122,20 +136,32 @@ export default function Header() {
               </li>
             </ul>
             <div className="flex flex-col space-y-3 py-4 px-8">
-              <a
-                href="#"
-                className="text-accent text-center"
-                onClick={() => setIsOpen(false)}
-              >
-                Masuk
-              </a>
-              <a
-                href="#"
-                className="bg-accent text-white px-4 py-2 rounded-lg text-center"
-                onClick={() => setIsOpen(false)}
-              >
-                Daftar
-              </a>
+              {isAuthenticated ? (
+                <a
+                  href="/job-companion"
+                  className="bg-accent text-white px-4 py-2 rounded-lg text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Dasbor
+                </a>
+              ) : (
+                <>
+                  <a
+                    href="/login"
+                    className="text-accent text-center"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Masuk
+                  </a>
+                  <a
+                    href="/register"
+                    className="bg-accent text-white px-4 py-2 rounded-lg text-center"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Daftar
+                  </a>
+                </>
+              )}
             </div>
           </div>
         )}
