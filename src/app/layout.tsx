@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/features/layout/components/header.component";
 import AppInitializer from "@/features/auth/components/AppInitializer";
+import Toast from "@/lib/components/toast";
+import { useToast } from "@/services/toast.store";
+import ToastWrapper from "@/features/layout/components/ToastWrapper.component";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +27,12 @@ export default function RootLayout({
       <body className={`${inter.variable} antialiased`}>
         <AppInitializer />
         <Header />
-        <main className="p-8 pb-20 gap-16 md:p-20 relative">{children}</main>
+        <main className="p-8 pb-20 gap-16 md:px-20 relative">
+          {children}
+
+          {/* Toast / Notif */}
+          <ToastWrapper></ToastWrapper>
+        </main>
       </body>
     </html>
   );

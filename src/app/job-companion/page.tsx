@@ -1,4 +1,4 @@
-import JobCard from "@/features/job-companion/components/JobCard";
+import JobDataWrapper from "@/features/job-companion/components/JobDataWrapper.component";
 import { Briefcase } from "lucide-react";
 import Link from "next/link";
 
@@ -22,9 +22,7 @@ export default function JobCompanion() {
         <p className="text-sm mt-4">
           Lihat seluruh lamaran yang pernah anda kirimkan di sini.
         </p>
-        <div className="flex flex-col gap-4 w-full mt-4">
-          <JobCard></JobCard>
-        </div>
+        <JobDataWrapper />
       </div>
     </section>
   );

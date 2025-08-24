@@ -1,5 +1,4 @@
 "use client";
-
 import { useProfileStore } from "@/services/profile/profileStore";
 import PersonalDataTab from "@/features/profile/components/tabs/PersonalDataTab.component";
 import WorkExperienceTab from "@/features/profile/components/tabs/WorkExperienceTab.component";
@@ -13,7 +12,7 @@ import { useEffect } from "react";
 export default function OnboardingForm(): React.ReactElement {
   const { activeTab, tabs, setActiveTab, saveAndContinue, fetchProfile } =
     useProfileStore();
-  const { type, title, message, openToast, setOpenToast } = useToast();
+  const { setOpenToast } = useToast();
   const router = useRouter();
 
   useEffect(() => {
@@ -87,9 +86,6 @@ export default function OnboardingForm(): React.ReactElement {
           ))}
         </nav>
       </div>
-
-      <div className="h-fit">{renderActiveTab()}</div>
-
       <div className="mt-12 pt-6 border-t border-slate-200 flex justify-end items-center gap-4">
         <button
           type="button"
@@ -99,7 +95,6 @@ export default function OnboardingForm(): React.ReactElement {
           Simpan & Lanjutkan
         </button>
       </div>
-      {openToast && <Toast type={type} title={title} message={message}></Toast>}
     </section>
   );
 }
