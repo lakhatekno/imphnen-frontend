@@ -5,13 +5,12 @@ import PersonalDataTab from '@/features/profile/components/tabs/PersonalDataTab.
 import WorkExperienceTab from '@/features/profile/components/tabs/WorkExperienceTab.component';
 import { EducationTab } from '@/features/profile/components/tabs/EducationTab.component';
 import SkillsTab from '@/features/profile/components/tabs/SkillsTab.component';
-import Toast from '@/lib/components/toast';
 import { useToast } from '@/services/toast.store';
 import { useRouter } from 'next/navigation';
 
 export default function OnboardingForm(): React.ReactElement {
 	const { activeTab, tabs, setActiveTab, saveAndContinue } = useProfileStore();
-	const { type, title, message, openToast, setOpenToast } = useToast();
+	const { setOpenToast } = useToast();
 	const router = useRouter();
 
 	const submitSection = async () => {
@@ -91,13 +90,6 @@ export default function OnboardingForm(): React.ReactElement {
 					Simpan & Lanjutkan
 				</button>
 			</div>
-			{openToast && (
-				<Toast
-					type={type}
-					title={title}
-					message={message}
-				></Toast>
-			)}
 		</section>
 	);
 }
