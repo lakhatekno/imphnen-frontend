@@ -6,6 +6,7 @@ import { BaseResponse } from "@/types/res.type";
 interface ChatStore extends ChatSession {
   initializeSession: (jobId: string) => Promise<void>;
   sendMessage: (jobId: string, userMessage: string) => Promise<void>;
+  restartInterview: (jobId: string) => Promise<void>;
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -34,7 +35,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         logsRes.data.forEach((log) => {
           const createdAt = new Date(log.createdAt);
           qna.push({
-            id: log.id,
+            id: `${log.id}-question`,
             sender: "HR Jaka",
             text: log.question,
             timestamp: createdAt.toLocaleTimeString("id-ID", {
@@ -44,7 +45,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           });
           if (log.answer) {
             qna.push({
-              id: log.id,
+              id: `${log.id}-answer`,
               sender: "user",
               text: log.answer,
               timestamp: createdAt.toLocaleTimeString("id-ID", {
@@ -89,6 +90,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   sendMessage: async (jobId: string, userMessageText: string) => {
     if (!userMessageText.trim() || get().isLoading) return;
 
+    console.log("Sending message:", userMessageText);
+
     const userMessage: ChatMessage = {
       id: Date.now(),
       sender: "user",
@@ -110,7 +113,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const answerRes = await apiRequest<BaseResponse<{ question: string }>>(
         `/interview/answer/${jobId}`,
         "POST",
-        { message: userMessageText }
+        { answer: userMessageText }
       );
       set((state) => ({
         messages: [
@@ -142,6 +145,33 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         messages: [...state.messages, errorResponse],
         isLoading: false,
       }));
+    }
+  },
+
+  restartInterview: async (jobId: string) => {
+    set({ isLoading: true, error: null, messages: [] });
+    try {
+      const startRes = await apiRequest<BaseResponse<{ question: string }>>(
+        `/interview/start/${jobId}`,
+        "POST"
+      );
+      set({
+        id: jobId,
+        messages: [
+          {
+            id: Date.now(),
+            sender: "HR Jaka",
+            text: startRes.data.question,
+            timestamp: new Date().toLocaleTimeString("id-ID", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+        isLoading: false,
+      });
+    } catch (err) {
+      set({ error: "Gagal memulai ulang sesi.", isLoading: false });
     }
   },
 }));
