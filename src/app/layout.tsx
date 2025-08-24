@@ -22,7 +22,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${inter.variable} antialiased`}>
 				<Header />
-				<main className="p-8 pb-20 gap-16 md:p-20">{children}</main>
+				<main className="p-8 pb-20 gap-16 md:p-20 relative">{children}</main>
 			</body>
 		</html>
 	);
