@@ -1,12 +1,32 @@
 'use client';
 
 import { TabType, usePreviewStore } from '@/services/job-companion/email-preview/previewStore';
-import { CoverLetterPreviewTab, CVPreviewTab } from '@/features/job-companion/components/PDFPreview';
+import { CoverLetterPreviewTab, CVPreviewTab, SummaryPreviewTab } from '@/features/job-companion/components/PDFPreview';
 import { CloudDownload } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function EmailPreview() {
-	const { activeTab, setActiveTab } = usePreviewStore();
-	const tabs: TabType[] = ['CV', 'Cover Letter'];
+	const params = useParams()
+	const { isLoading, activeTab, setActiveTab, generatedPreviews, sendJobpack, setJobId } = usePreviewStore();
+	const tabs: TabType[] = ['CV', 'Cover Letter', 'Summary'];
+	const isJobpackReady = tabs.every(tab => generatedPreviews.has(tab));
+
+	const companionId = params.id as string;
+
+	const handleSendJobpack = () => {
+    if (companionId) {
+      sendJobpack(companionId);
+    } else {
+      alert("ID not found to send jobpack.");
+    }
+  };
+
+	useEffect(() => {
+    if (companionId) {
+      setJobId(companionId);
+    }
+  }, [companionId, setJobId]);
 
 	return (
 		<section className="flex flex-col shadow-lg shadow-slate-300 bg-white rounded-lg overflow-auto">
@@ -19,7 +39,10 @@ export default function EmailPreview() {
 				</div>
 
         {/* Send Button */}
-        <button className='bg-[#0FDB00] px-4 py-2 rounded-lg text-xs font-medium flex gap-1 shrink-0 h-fit items-center justify-center'>
+        <button 
+					onClick={handleSendJobpack}
+          disabled={!isJobpackReady || isLoading}
+					className='bg-[#0FDB00] hover:bg-green-500 px-4 py-2 rounded-lg text-xs font-medium flex gap-1 shrink-0 h-fit items-center justify-center disabled:bg-gray-400'>
           <CloudDownload />
           Simpan Jobpack
         </button>
@@ -48,6 +71,7 @@ export default function EmailPreview() {
 			<div className="flex-1 p-4 sm:p-6 bg-slate-50">
 				{activeTab === 'CV' && <CVPreviewTab />}
 				{activeTab === 'Cover Letter' && <CoverLetterPreviewTab />}
+				{activeTab === 'Summary' && <SummaryPreviewTab />}
 			</div>
 		</section>
 	);
