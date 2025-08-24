@@ -15,4 +15,5 @@ export interface AuthState {
   isAuthenticated: boolean;
   login: (credentials: loginBody) => Promise<void>;
   logout: () => void;
+  checkAuth: () => Promise<void>;
 }
