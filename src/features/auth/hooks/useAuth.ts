@@ -1,16 +1,20 @@
-import { useAuthStore } from '@/services/auth/authStore';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+"use client";
+import { useAuthStore } from "@/services/auth/authStore";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export function useRequireAuth() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, _hasHydrated } = useAuthStore();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
+    if (!_hasHydrated) return;
+    console.log("isAuthenticated:", isAuthenticated, "pathname:", pathname);
+    if (!isAuthenticated && pathname !== "/login") {
+      router.push("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, pathname, _hasHydrated]);
 
-  return isAuthenticated;
+  return isAuthenticated && _hasHydrated;
 }
