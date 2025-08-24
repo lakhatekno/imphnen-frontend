@@ -60,8 +60,14 @@ export default function ChatInterview() {
             Mulai Ulang
           </button>
           <Link
-            href={`/job-companion/${jobId}/email-preview`}
+            href={`/job-companion/${jobId}/interview-feedback`}
             className="px-4 py-2 text-sm bg-[#0FDB00] font-medium rounded-lg hover:bg-green-500 cursor-pointer transition-colors"
+          >
+            Lihat Feedback
+          </Link>
+          <Link
+            href={`/job-companion/${jobId}/email-preview`}
+            className="px-4 py-2 text-sm bg-[#EF4444] font-medium rounded-lg hover:bg-[#db3d3d] cursor-pointer transition-colors"
           >
             Lewati
           </Link>
