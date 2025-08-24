@@ -1,5 +1,10 @@
 "use client";
+
 import { useProfileStore } from "@/services/profile/profileStore";
+import PersonalDataTab from "@/features/profile/components/tabs/PersonalDataTab.component";
+import WorkExperienceTab from "@/features/profile/components/tabs/WorkExperienceTab.component";
+import { EducationTab } from "@/features/profile/components/tabs/EducationTab.component";
+import SkillsTab from "@/features/profile/components/tabs/SkillsTab.component";
 import { useToast } from "@/services/toast.store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -44,6 +49,21 @@ export default function OnboardingForm(): React.ReactElement {
     }
   };
 
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case "Data Pribadi":
+        return <PersonalDataTab />;
+      case "Pengalaman Kerja":
+        return <WorkExperienceTab />;
+      case "Pendidikan":
+        return <EducationTab />;
+      case "Keahlian":
+        return <SkillsTab />;
+      default:
+        return <PersonalDataTab />;
+    }
+  };
+
   return (
     <section className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-10">
       <h2 className="text-2xl font-bold text-slate-900 mb-2">
@@ -66,6 +86,9 @@ export default function OnboardingForm(): React.ReactElement {
           ))}
         </nav>
       </div>
+
+      <div className="h-fit">{renderActiveTab()}</div>
+
       <div className="mt-12 pt-6 border-t border-slate-200 flex justify-end items-center gap-4">
         <button
           type="button"
