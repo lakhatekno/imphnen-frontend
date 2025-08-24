@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { AuthState, useAuthStore } from '@/services/auth/authStore';
+import { useAuthStore } from '@/services/auth/authStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { AuthState } from '@/types/auth.type';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
