@@ -6,6 +6,7 @@ import AppInitializer from "@/features/auth/components/AppInitializer";
 import Toast from "@/lib/components/toast";
 import { useToast } from "@/services/toast.store";
 import ToastWrapper from "@/features/layout/components/ToastWrapper.component";
+import Footer from "@/features/layout/components/footer.component";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,6 +34,7 @@ export default function RootLayout({
           {/* Toast / Notif */}
           <ToastWrapper></ToastWrapper>
         </main>
+        <Footer />
       </body>
     </html>
   );

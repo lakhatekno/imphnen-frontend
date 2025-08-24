@@ -10,7 +10,6 @@ export function useRequireAuth() {
 
   useEffect(() => {
     if (!_hasHydrated) return;
-    console.log("isAuthenticated:", isAuthenticated, "pathname:", pathname);
     if (!isAuthenticated && pathname !== "/login") {
       router.push("/login");
     }
