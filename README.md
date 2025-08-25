@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kerja Merdeka – Frontend (Next.js)
 
-## Getting Started
+## 🚀 Overview
+Frontend aplikasi **Kerja Merdeka**, AI Agent pendamping pelamar kerja.  
+Dibangun menggunakan **Next.js 14 (App Router)** dengan desain **one-page dark mode** yang clean dan responsif.
 
-First, run the development server:
+Aplikasi ini terhubung dengan backend service ([kerja-merdeka-be](https://github.com/your-repo/kerja-merdeka-be)) untuk:
+- Generate **CV & Cover Letter** berbasis AI.
+- Simulasi **mock interview**.
+- Kirim **job pack via email**.
 
+## ✨ Features
+- 🎨 Modern UI dengan **Next.js + TailwindCSS**
+- 🌙 **Dark mode** toggle
+- 🔑 **Auth integration** (JWT dari backend)
+- 📄 **Form input data diri & lowongan**
+- 📊 **Dashboard hasil generate**
+- 📧 **Notifikasi job pack terkirim**
+- ⚡ Optimized build & deploy di Vercel
+
+## 🌐 Demo
+🔗 **Live Demo Frontend**: [https://your-frontend-demo.vercel.app](https://your-frontend-demo.vercel.app)  
+📹 **Demo Video**: [YouTube Demo Link](https://youtu.be/your-video-link)  
+
+## 📸 Screenshots
+| Landing Page | Form Input | Dashboard |
+|--------------|------------|-----------|
+| ![landing](docs/screenshots/landing.png) | ![form](docs/screenshots/form.png) | ![dashboard](docs/screenshots/dashboard.png) |
+
+## 🏗️ Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **UI**: TailwindCSS + shadcn/ui
+- **Auth**: JWT (integrasi backend)
+- **State Management**: React hooks + Context
+- **Deployment**: Vercel
+
+## ⚙️ Setup
+
+### 1. Clone & Install
+```bash
+git clone https://github.com/your-repo/kerja-merdeka-fe.git
+cd kerja-merdeka-fe
+npm install
+```
+### 2. Environment variables
+```bash
+NEXT_PUBLIC_BASE_API_URL=https://your-backend-api-url
+```
+### 3. Run
+Dev mode:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Akses di: [http://localhost:3000](http://localhost:3000)
+Prod mode:
+```bash
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Pages
+- **/** - Landing Page
+- **/register** - Register
+- **/login** - Login
+- **/job-companion** - Dasbor Pendamping Kerja
+- **/profile** - Profil Pengguna
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👥 Team
+- Backend: [Muhammad Iqbal Ghozy](https://github.com/qybbs) 
+- Frontend: [Muhammad Islakha Khoiruzzaman Tekhno Agri](https://github.com/lakhatekno) 
+- UI/UX: [Muhammad Iqbal Ghozy](https://github.com/Tenshi-X) 
