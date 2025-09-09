@@ -74,5 +74,5 @@ npm start
 
 ## 👥 Team
 - Backend: [Muhammad Iqbal Ghozy](https://github.com/qybbs) 
-- Frontend: [Muhammad Islakha Khoiruzzaman Tekhno Agri](https://github.com/lakhatekno) 
-- UI/UX: [Muhammad Iqbal Ghozy](https://github.com/Tenshi-X) 
+- Frontend: [Muhammad Islakha Khoiruzaman Tekno Agri](https://github.com/lakhatekno) 
+- UI/UX: [Seva Giantama Farel](https://github.com/Tenshi-X) 
